@@ -76,32 +76,20 @@ Prerequisites
 Node.js (v16+)
 npm (v8+)
 Installation
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/Aranya3004/legal_info_BD.git
+cd https://github.com/Aranya3004/legal_info_BD?authuser=0
 npm install
 Run Development Server
 npm start
 
-Visit: http://localhost:3000
+Visit: http://localhost:3001
 
-📁 Project Structure
-├── public/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── utils/
-│   ├── App.js
-│   └── index.js
-├── .env.example
-├── package.json
-└── README.md
 🌐 Deployment
 
 This project can be deployed on:
 
-Vercel
-Netlify
-GitHub Pages
+Vercel:https://legal-info-bd-9q7f.vercel.app/
+
 ⚖️ Disclaimer
 
 This system is for informational purposes only and does not replace professional legal advice.
