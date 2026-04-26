@@ -1,54 +1,75 @@
-require('dotenv').config();// Load environment variables FIRST — before anything else
-require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
+// ============================================
+// ENV CONFIG (MUST BE FIRST)
+// ============================================
+require('dotenv').config();
 
+// ============================================
+// CORE IMPORTS
+// ============================================
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 
-// Import OpenRouter SDK
+// OpenRouter SDK
 const { OpenRouter } = require('@openrouter/sdk');
 
-// Import database connection (runs on startup)
+// Database connection (runs on startup)
 require('./config/db');
 
-// Import route files
+// Routes
 const authRoutes = require('./routes/authRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 const casesRoutes = require('./routes/casesRoutes');
 const sectionsRoute = require('./routes/sections');
 
-// Create OpenRouter instance (GLOBAL)
+// ============================================
+// OPENROUTER SETUP
+// ============================================
 const openRouter = new OpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY,
   defaultHeaders: {
-    "HTTP-Referer": "http://localhost:5000",
+    "HTTP-Referer": process.env.FRONTEND_URL || "https://localhost:3000",
     "X-OpenRouter-Title": "Legal AI Backend",
   },
 });
 
-// Create Express app
+// ============================================
+// EXPRESS APP
+// ============================================
 const app = express();
 
-// Make OpenRouter available inside routes
+// Make OpenRouter available globally in routes
 app.set("openRouter", openRouter);
 
 // ============================================
 // MIDDLEWARE
 // ============================================
-
 app.use(helmet());
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  process.env.FRONTEND_URL,         // Set this in Render env vars after frontend is deployed
+].filter(Boolean);                  // removes undefined if FRONTEND_URL is not set yet
+
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS blocked: ${origin} is not allowed`));
+  },
   credentials: true,
 }));
 
 app.use(express.json());
 
+// Rate limiter (basic protection)
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit per IP
   message: { error: 'Too many requests, please try again later.' }
 });
 app.use(limiter);
@@ -56,12 +77,14 @@ app.use(limiter);
 // ============================================
 // ROUTES
 // ============================================
-
 app.use('/api/auth', authRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/cases', casesRoutes);
 app.use('/api', sectionsRoute);
-// Health check
+
+// ============================================
+// HEALTH CHECK
+// ============================================
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
@@ -73,27 +96,29 @@ app.get('/health', (req, res) => {
 // ============================================
 // 404 HANDLER
 // ============================================
-
 app.use((req, res) => {
-  res.status(404).json({ error: `Route ${req.method} ${req.url} not found.` });
+  res.status(404).json({
+    error: `Route ${req.method} ${req.url} not found.`
+  });
 });
 
 // ============================================
-// ERROR HANDLER
+// GLOBAL ERROR HANDLER
 // ============================================
-
 app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err.message);
-  res.status(500).json({ error: 'An unexpected server error occurred.' });
+  console.error('Server Error:', err);
+  res.status(500).json({
+    error: 'Internal server error'
+  });
 });
 
 // ============================================
-// START SERVER
+// START SERVER (Render-safe)
 // ============================================
-
 const PORT = process.env.PORT || 5000;
+const HOST = '0.0.0.0';
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`🔍 Health check: http://localhost:${PORT}/health`);
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🔍 Health check: /health`);
 });
