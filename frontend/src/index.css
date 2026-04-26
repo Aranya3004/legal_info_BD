@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Barlow:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+/* ── Sahara Design System ── */
+:root {
+  --primary: #c2652a;
+  --primary-container: #e08850;
+  --primary-fixed: #fbe8d8;
+  --primary-fixed-dim: #f0a878;
+  --on-primary: #ffffff;
+  --on-primary-container: #fbe8d8;
+
+  --secondary: #78706a;
+  --secondary-container: #eae2da;
+  --on-secondary: #ffffff;
+  --on-secondary-container: #605850;
+
+  --tertiary: #8c3c3c;
+  --tertiary-container: #d47070;
+  --on-tertiary: #ffffff;
+  --on-tertiary-container: #3a2020;
+
+  --surface: #faf5ee;
+  --surface-dim: #dcd6cc;
+  --surface-bright: #faf5ee;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f6f0e8;
+  --surface-container: #f2ece4;
+  --surface-container-high: #ece6dc;
+  --surface-container-highest: #e6e0d6;
+
+  --on-surface: #3a302a;
+  --on-surface-variant: #605850;
+  --outline: #9a9088;
+  --outline-variant: #d8d0c8;
+
+  --error: #c0392b;
+  --error-container: #fce4e0;
+  --on-error: #ffffff;
+
+  --inverse-surface: #3a302a;
+  --inverse-on-surface: #faf5ee;
+  --inverse-primary: #f0a878;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background: var(--surface);
+  color: var(--on-surface);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-headline {
+  font-family: 'EB Garamond', serif;
+  line-height: 1.1;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--surface-container-low); }
+::-webkit-scrollbar-thumb { background: var(--outline-variant); border-radius: 3px; }
+
+/* ── Selection ── */
+::selection { background: var(--primary-fixed); color: var(--on-surface); }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes pulse-warm {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(194, 101, 42, 0.3); }
+  50%       { box-shadow: 0 0 0 8px rgba(194, 101, 42, 0); }
+}
+
+.animate-fade-up   { animation: fadeUp 0.5s ease forwards; }
+.animate-fade-in   { animation: fadeIn 0.4s ease forwards; }
+
+/* ── Utility ── */
+.font-body    { font-family: 'Manrope', sans-serif; }
+.font-display { font-family: 'EB Garamond', serif; }
+.text-primary        { color: var(--primary); }
+.text-secondary      { color: var(--secondary); }
+.text-tertiary       { color: var(--tertiary); }
+.text-on-surface     { color: var(--on-surface); }
+.text-on-surface-variant { color: var(--on-surface-variant); }
+.text-outline        { color: var(--outline); }
+.bg-primary          { background-color: var(--primary); }
+.bg-surface          { background-color: var(--surface); }
+.bg-surface-container-low     { background-color: var(--surface-container-low); }
+.bg-surface-container-lowest  { background-color: var(--surface-container-lowest); }
+
+/* ── Prose for AI responses ── */
+.prose-legal p  { margin-bottom: 1rem; line-height: 1.8; font-size: 1.05rem; }
+.prose-legal strong { color: var(--primary); font-weight: 700; }
