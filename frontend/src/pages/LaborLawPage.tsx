@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Search, X, Scale, Languages, BookOpen, ChevronRight } from 'lucide-react';
+import { motion } from 'motion/react';
+import { Search, X, Scale, Languages } from 'lucide-react';
 
 // Bangladesh Labour Act 2006 - Complete Data
 const labourActData = [
