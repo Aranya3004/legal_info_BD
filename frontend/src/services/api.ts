@@ -5,7 +5,8 @@ import { AuthResponse, LoginCredentials, RegisterCredentials } from '../types';
 // Now instead of typing the full URL every time,
 // you just call api.post('/auth/login') and it knows the base.
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  // AFTER
+baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
   },
