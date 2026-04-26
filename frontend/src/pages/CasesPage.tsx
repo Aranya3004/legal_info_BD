@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Folder, Plus, X, Trash2, CheckCircle, RefreshCw, BookOpen,
-  Search, ChevronRight, FileText, Scale, User, Briefcase, Calendar,
+  Search, FileText, Scale, User, Briefcase, Calendar,
 } from 'lucide-react';
 
 /* ─────────────── Types ─────────────── */
@@ -49,8 +49,6 @@ const Badge = ({ label, cls }: { label: string; cls: string }) => (
     {label}
   </span>
 );
-
-const PRIORITIES = ['low', 'medium', 'high', 'urgent'];
 
 /* ─────────────── Main component ─────────────── */
 const CasesPage = () => {
@@ -105,7 +103,6 @@ const CasesPage = () => {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const r = await api.post('/cases', formData);
       setCases(prev => [r.data.case, ...prev]);
       setShowForm(false);
       setFormData({ title: '', description: '', case_type: '', client_name: '', client_email: '', priority: 'medium' });
