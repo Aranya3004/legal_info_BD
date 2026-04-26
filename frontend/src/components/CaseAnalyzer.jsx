@@ -21,7 +21,7 @@ const CaseAnalyzer = () => {
       }
 
       // This is correct! Talk to your backend, NOT directly to Groq.
-      const response = await fetch('http://localhost:5000/api/ai/analyze-case', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/ai/analyze-case`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
