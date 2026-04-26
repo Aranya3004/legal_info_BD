@@ -101,13 +101,7 @@ const CasesPage = () => {
 
   /* ─────── Case CRUD ─────── */
   const handleCreate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      setCases(prev => [r.data.case, ...prev]);
-      setShowForm(false);
-      setFormData({ title: '', description: '', case_type: '', client_name: '', client_email: '', priority: 'medium' });
-      toast.success('Case created.');
-    } catch (err: any) {
+    catch (err: any) {
       toast.error(err.response?.data?.error || 'Failed to create case.');
     }
   };
