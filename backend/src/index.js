@@ -32,7 +32,7 @@ const openRouter = new OpenRouter({
 // EXPRESS APP
 // ============================================
 const app = express();
-
+app.set('trust proxy', 1);
 // Make OpenRouter available globally in routes
 app.set("openRouter", openRouter);
 
