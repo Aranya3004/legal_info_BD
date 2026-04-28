@@ -2,13 +2,12 @@ import axios from 'axios';
 import { AuthResponse, LoginCredentials, RegisterCredentials } from '../types';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Attach JWT token to every request automatically
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -17,7 +16,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle expired/invalid token globally — auto-logout on 401
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -30,7 +28,6 @@ api.interceptors.response.use(
   }
 );
 
-// AUTH SERVICE
 export const authService = {
   register: async (credentials: RegisterCredentials): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>('/auth/register', credentials);
