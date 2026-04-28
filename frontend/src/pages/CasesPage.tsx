@@ -89,7 +89,7 @@ const CasesPage = () => {
         params: { act_title: actTitle, year: actYear },
       });
       setSections(res.data.sections || []);
-      setSelectedSection(null);  // clear previous selection when act changes
+      setSelectedSection(null);
     } catch {
       toast.error('Failed to load act sections.');
     } finally {
@@ -100,7 +100,7 @@ const CasesPage = () => {
   useEffect(() => { fetchActSections(); }, [fetchActSections]);
 
   /* ─────── Case CRUD ─────── */
-const handleCreate = async (e: React.FormEvent) => {
+  const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const r = await api.post('/cases', formData);
@@ -195,7 +195,7 @@ const handleCreate = async (e: React.FormEvent) => {
 
         {/* ===== LEFT COLUMN ===== */}
         <div>
-          {/* 🔹 Section Reference Banner 🔹 */}
+          {/* Section Reference Banner */}
           <AnimatePresence>
             {selectedSection && (
               <motion.div
@@ -234,8 +234,127 @@ const handleCreate = async (e: React.FormEvent) => {
             )}
           </AnimatePresence>
 
-          {/* Create Case Form (unchanged) */}
-          {/* ... (same as before) ... */}
+          {/* ===== CREATE CASE FORM ===== */}
+          <AnimatePresence>
+            {showForm && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="bg-white rounded-3xl shadow-lg border border-stone-100 p-6 mb-6"
+              >
+                <h2 className="text-lg font-black italic uppercase tracking-tight text-[#1a2f23] mb-5 flex items-center gap-2">
+                  <Plus className="w-5 h-5 text-[#f42a41]" /> New Case
+                </h2>
+                <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Title */}
+                  <div className="md:col-span-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-1 block">
+                      Case Title <span className="text-[#f42a41]">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.title}
+                      onChange={e => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                      placeholder="e.g. Wrongful Termination — Fatima Begum"
+                      className="w-full rounded-2xl border border-stone-200 px-4 py-3 text-sm font-medium text-stone-700 outline-none focus:border-[#006a4e] focus:ring-2 focus:ring-[#006a4e]/10 transition-all"
+                    />
+                  </div>
+
+                  {/* Case Type */}
+                  <div>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-1 block">
+                      Case Type
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.case_type}
+                      onChange={e => setFormData(prev => ({ ...prev, case_type: e.target.value }))}
+                      placeholder="e.g. Labour Dispute"
+                      className="w-full rounded-2xl border border-stone-200 px-4 py-3 text-sm font-medium text-stone-700 outline-none focus:border-[#006a4e] focus:ring-2 focus:ring-[#006a4e]/10 transition-all"
+                    />
+                  </div>
+
+                  {/* Priority */}
+                  <div>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-1 block">
+                      Priority
+                    </label>
+                    <select
+                      value={formData.priority}
+                      onChange={e => setFormData(prev => ({ ...prev, priority: e.target.value }))}
+                      className="w-full rounded-2xl border border-stone-200 px-4 py-3 text-sm font-medium text-stone-700 outline-none focus:border-[#006a4e] focus:ring-2 focus:ring-[#006a4e]/10 transition-all bg-white"
+                    >
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                      <option value="urgent">Urgent</option>
+                    </select>
+                  </div>
+
+                  {/* Client Name */}
+                  <div>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-1 block">
+                      Client Name
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.client_name}
+                      onChange={e => setFormData(prev => ({ ...prev, client_name: e.target.value }))}
+                      placeholder="e.g. Fatima Begum"
+                      className="w-full rounded-2xl border border-stone-200 px-4 py-3 text-sm font-medium text-stone-700 outline-none focus:border-[#006a4e] focus:ring-2 focus:ring-[#006a4e]/10 transition-all"
+                    />
+                  </div>
+
+                  {/* Client Email */}
+                  <div>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-1 block">
+                      Client Email
+                    </label>
+                    <input
+                      type="email"
+                      value={formData.client_email}
+                      onChange={e => setFormData(prev => ({ ...prev, client_email: e.target.value }))}
+                      placeholder="e.g. fatima@example.com"
+                      className="w-full rounded-2xl border border-stone-200 px-4 py-3 text-sm font-medium text-stone-700 outline-none focus:border-[#006a4e] focus:ring-2 focus:ring-[#006a4e]/10 transition-all"
+                    />
+                  </div>
+
+                  {/* Description */}
+                  <div className="md:col-span-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-1 block">
+                      Description
+                    </label>
+                    <textarea
+                      value={formData.description}
+                      onChange={e => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                      placeholder="Brief summary of the case..."
+                      rows={3}
+                      className="w-full rounded-2xl border border-stone-200 px-4 py-3 text-sm font-medium text-stone-700 outline-none focus:border-[#006a4e] focus:ring-2 focus:ring-[#006a4e]/10 transition-all resize-none"
+                    />
+                  </div>
+
+                  {/* Submit */}
+                  <div className="md:col-span-2 flex gap-3 justify-end">
+                    <button
+                      type="button"
+                      onClick={() => setShowForm(false)}
+                      className="rounded-full px-6 py-2.5 text-xs font-black uppercase tracking-widest border-2 border-stone-200 text-stone-400 hover:border-stone-300 hover:text-stone-500 transition-all"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="rounded-full px-6 py-2.5 text-xs font-black uppercase tracking-widest bg-[#006a4e] text-white border-2 border-[#006a4e] hover:scale-[1.02] transition-all"
+                    >
+                      Create Case
+                    </button>
+                  </div>
+                </form>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Cases list */}
           {isLoading && (
