@@ -1,114 +1,213 @@
 # LegalInfoBD
 
-<img width="93" height="20" alt="image" src="https://github.com/user-attachments/assets/9d2bc27e-6393-40a0-9e69-47af8a07cb48" />
+![Version](https://img.shields.io/badge/version-1.1-006a4e?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-f42a41?style=flat-square)
+![Status](https://img.shields.io/badge/status-live-006a4e?style=flat-square)
+![React](https://img.shields.io/badge/React-CRA-61dafb?style=flat-square&logo=react)
+![Node](https://img.shields.io/badge/Node.js-Express-339933?style=flat-square&logo=node.js)
+![Deploy](https://img.shields.io/badge/deployed-Vercel-black?style=flat-square&logo=vercel)
 
-<img width="82" height="20" alt="image" src="https://github.com/user-attachments/assets/16f58f34-d36e-435c-9f73-6ce06e58f3b5" />
+> **An AI-powered legal information system for Bangladesh Labour Law**  
+> Making the Bangladesh Labour Act 2006 accessible to workers, researchers, and legal professionals — in Bangla and English.
 
-<img width="88" height="20" alt="image" src="https://github.com/user-attachments/assets/b0e12d55-0a09-4487-89a8-c148e8d50475" />
+🌐 **Live Demo:** [legal-info-bd-9q7f.vercel.app](https://legal-info-bd-9q7f.vercel.app)
 
+---
 
-A web-based legal information system that uses Retrieval-Augmented Generation (RAG) to answer questions about Bangladesh labor law with verifiable citations from the Bangladesh Labour Act 2006.
+## 📸 Preview
 
-Built to make legal information more accessible for workers, researchers, and legal professionals—without sacrificing accuracy.
+> Workers and legal professionals can ask questions in Bangla or English and receive cited, grounded answers from the Labour Act 2006.
 
-✨ Key Features
-RAG-Based Question Answering
-Ask questions in Bangla or English and receive answers grounded in actual legal text.
-Citation-Backed Responses
-Every answer includes references to specific sections of the Labour Act 2006.
-Legal Document Browser
-Explore the full act organized by chapter and section.
-Frequently Asked Questions (FAQ)
-Preloaded common legal questions for quick access.
-Expert Validation Panel
-Legal professionals can review and validate AI-generated answers.
-Anonymous Access
-No login or personal data collection.
-Built-in Legal Disclaimers
-Ensures responsible use of AI-generated legal information.
-🧠 How It Works (RAG Pipeline)
+---
 
-This system uses a Retrieval-Augmented Generation (RAG) architecture:
+## ✨ Features
 
-User submits a question (Bangla/English)
-The system converts the query into embeddings
-Relevant sections are retrieved from a vector database
-Retrieved legal text is passed to a language model
-The model generates an answer grounded in retrieved context
-The system returns:
-Final answer
-Supporting legal citations
+| Feature | Description |
+|---|---|
+| 🤖 **RAG-Based Q&A** | Ask questions in Bangla or English, get answers grounded in real legal text |
+| 📎 **Citation-Backed Responses** | Every answer cites the exact section of the Labour Act 2006 |
+| 📚 **Legal Document Browser** | Explore the full act by chapter and section |
+| ❓ **FAQ Library** | Preloaded common legal questions in Bangla & English |
+| ✅ **Expert Validation Panel** | Legal professionals can review and validate AI answers |
+| 🔒 **Anonymous Access** | No login or personal data collection for workers |
+| ⚖️ **Built-in Legal Disclaimers** | Responsible AI — every page reminds users this is not legal advice |
+| 💼 **Case Management** | Lawyers can create, track, and manage legal cases |
 
-This approach reduces hallucination and ensures responses are based on real legal documents.
+---
 
-📦 Dataset Citation
+## 🧠 How It Works (RAG Pipeline)
 
-This project is built upon the following dataset:
+```
+User Query (Bangla / English)
+        ↓
+① Query converted to vector embeddings
+        ↓
+② Relevant sections retrieved from vector database
+        ↓
+③ Retrieved legal text passed to LLM (Llama 3 via OpenRouter)
+        ↓
+④ Answer generated — grounded in retrieved context
+        ↓
+⑤ Response returned with citations + section references
+```
 
-Sakhawat, A. (2025). Bangladesh Legal Acts Dataset Dataset. Kaggle.
-https://doi.org/10.34740/KAGGLE/DSV/12931928
+This architecture **reduces hallucination** and ensures every response is traceable to the actual law.
 
-🛠️ Tech Stack
+---
 
-Frontend
+## 🛠️ Tech Stack
 
-React (Create React App)
+### Frontend
+- **React** (Create React App) + TypeScript
+- **Tailwind CSS** — utility-first styling
+- **Framer Motion** — animations
+- **Lucide React** — icons
+- **Axios** — API communication
 
-Backend
+### Backend
+- **Node.js + Express** — REST API
+- **PostgreSQL + pgvector** — structured data + vector embeddings
+- **JWT Authentication** — secure lawyer/validator login
+- **Helmet + Rate Limiting** — security middleware
 
-Node.js + Express
+### AI Layer
+- **Llama 3** via **OpenRouter API** — language model
+- **RAG Pipeline** — retrieval-augmented generation
+- **Vector Embeddings** — semantic search over legal sections
 
-Database
+### Deployment
+- **Vercel** — frontend
+- **Render** — backend
+- **Neon / Supabase** — PostgreSQL database
 
-MySQL (structured data)
-Vector Database (e.g., Pinecone)
+---
 
-AI Layer
+## 📦 Dataset
 
-OpenAI API or open-source LLM (e.g., LLaMA)
+This project is built on the following public dataset:
 
-Deployment
+> Sakhawat, A. (2025). *Bangladesh Legal Acts Dataset*. Kaggle.  
+> https://doi.org/10.34740/KAGGLE/DSV/12931928
 
-Vercel / Netlify (frontend)
-Railway / similar (backend)
-🚀 Getting Started
-Prerequisites
-Node.js (v16+)
-npm (v8+)
-Installation
+Primary legal source: **Bangladesh Labour Act 2006 (Act No. XLII of 2006)** — Ministry of Law, Government of Bangladesh.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js v16+
+- npm v8+
+- PostgreSQL (with pgvector extension)
+
+### Installation
+
+```bash
+# Clone the repository
 git clone https://github.com/Aranya3004/legal_info_BD.git
-cd https://github.com/Aranya3004/legal_info_BD?authuser=0
+cd legal_info_BD
+
+# Install frontend dependencies
 npm install
-Run Development Server
+
+# Install backend dependencies
+cd backend
+npm install
+```
+
+### Environment Variables
+
+Create a `.env` file in `/backend`:
+
+```env
+DATABASE_URL=your_postgresql_connection_string
+JWT_SECRET=your_jwt_secret
+OPENROUTER_API_KEY=your_openrouter_api_key
+FRONTEND_URL=http://localhost:3000
+PORT=5000
+```
+
+Create a `.env` file in the root (frontend):
+
+```env
+REACT_APP_API_URL=http://localhost:5000/api
+```
+
+### Run Development Server
+
+```bash
+# Run frontend (from root)
 npm start
+# → http://localhost:3000
 
-Visit: http://localhost:3001
+# Run backend (from /backend)
+npm start
+# → http://localhost:5000
+```
 
-🌐 Deployment
+---
 
-This project can be deployed on:
+## 🌐 Deployment
 
-Vercel:https://legal-info-bd-9q7f.vercel.app/
+| Service | URL |
+|---|---|
+| **Frontend (Vercel)** | [legal-info-bd-9q7f.vercel.app](https://legal-info-bd-9q7f.vercel.app) |
+| **Backend (Render)** | [legal-ai-backend-kvl5.onrender.com](https://legal-ai-backend-kvl5.onrender.com) |
+| **Health Check** | [/health](https://legal-ai-backend-kvl5.onrender.com/health) |
 
-⚖️ Disclaimer
+> ⚠️ The backend is hosted on Render's free tier and may take 30–60 seconds to wake up after inactivity.
 
-This system is for informational purposes only and does not replace professional legal advice.
-All responses are generated based on the Bangladesh Labour Act 2006 and should be reviewed by qualified legal professionals when necessary.
+---
 
-🤝 Contributing
+## 👥 User Roles
 
-Contributions are welcome.
+| Role | Access |
+|---|---|
+| **Worker (anonymous)** | FAQ library, document browser — no login required |
+| **Lawyer** | Full AI Q&A, case management, act reference panel |
+| **Validator** | Expert review panel to validate AI-generated answers |
 
-Fork the repository
-Create a feature branch (git checkout -b feature/your-feature)
-Commit changes (git commit -m 'Add feature')
-Push to your branch
-Open a Pull Request
+---
 
-📄 License
+## ⚖️ Disclaimer
 
-This project is licensed under the MIT License.
+This system is for **informational purposes only** and does not constitute legal advice.  
+All responses are generated based on the Bangladesh Labour Act 2006 and should be reviewed by a qualified legal professional when necessary.
 
-📬 Contact
+---
 
-For questions or feedback, open an issue on GitHub.
+## 🤝 Contributing
+
+Contributions are welcome!
+
+```bash
+# 1. Fork the repository
+# 2. Create a feature branch
+git checkout -b feature/your-feature
+
+# 3. Commit your changes
+git commit -m 'Add: your feature description'
+
+# 4. Push to your branch
+git push origin feature/your-feature
+
+# 5. Open a Pull Request
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see [LICENSE](LICENSE) for details.
+
+---
+
+## 📬 Contact
+
+For questions or feedback, open an issue on [GitHub](https://github.com/Aranya3004/legal_info_BD/issues).
+
+---
+
+<p align="center">
+  Built with ❤️ for access to justice in Bangladesh
+</p>
